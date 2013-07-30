@@ -1,9 +1,11 @@
-# comb(0, [[1], [2]])
-# => [
-#      [[0],[1],[2]],
-#      [[1, 2], [3]],
-#      [[1], [2, 3]]  
-#    ]
+###
+comb(0, [[1], [2]])
+=> [
+    [[0],[1],[2]],
+    [[1, 2], [3]],
+    [[1], [2, 3]]  
+   ]
+###
 comb = (x, ys)->
   a = (ys[..])
   a.push [x]
@@ -21,6 +23,7 @@ extendArray = (xs, ys)->
   xs.push.apply xs, ys
 
 
+# input a list having lenght >= 1
 allComb = (items)->  
   return [[items]] if items.length == 1
   
@@ -33,12 +36,47 @@ allComb = (items)->
 
   return ary
 
-###
-a = the1yuan([1,2,3,4,5])
-for e in a
-  console.log e
-###
 
-#t = comb 0, [[1],[2,3]]
-t = allComb([1,2,3])
-console.log t
+evalComb = (comb, rate)->
+  totalCost = 0
+  for xs in comb
+    sum = 0
+    sum += x.price for x in xs
+    totalCost += Math.round(sum * rate)
+  return totalCost
+
+
+getBestComb = (items, rate)->
+  combList = allComb(items)
+  bestComb = combList[0]
+  bestCost = evalComb combList[0], rate
+
+  for x in combList
+    xCost = evalComb x, rate
+    if xCost < bestCost or (xCost == bestCost and x.length < bestComb.length)
+      bestComb = x
+      bestCost = xCost
+
+  return bestComb
+
+
+mergeItems = (items)->
+  items = items[..]
+  for i in [0...items.length]
+    if items[i]?
+      t = items[i] = 
+      for j in [i...items.length]
+        if items[j].id? and items[j].id == t.id
+          t.num += 1
+          delete items[j]
+
+
+the1yuan = (itemList, rate)->
+  newList = []
+  for item in itemList
+    newList.push(item) for i in [1..item.num]
+    item.num = 1
+
+  result = getBestComb newList
+
+window.the1yuan = the1yuan
