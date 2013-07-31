@@ -11,7 +11,7 @@ comb(0, [[1], [2]])
 
 
 (function() {
-  var allComb, comb, evalComb, extendArray, getBestComb, mergeItems, the1yuan;
+  var allComb, comb, evalComb, extendArray, getBestComb, the1yuan;
 
   comb = function(x, ys) {
     var a, i, result, t, zs, _i, _ref;
@@ -78,34 +78,8 @@ comb(0, [[1], [2]])
     return bestComb;
   };
 
-  mergeItems = function(items) {
-    var i, j, t, _i, _ref, _results;
-    items = items.slice(0);
-    _results = [];
-    for (i = _i = 0, _ref = items.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-      if (items[i] != null) {
-        _results.push(t = items[i] = (function() {
-          var _j, _ref1, _results1;
-          _results1 = [];
-          for (j = _j = i, _ref1 = items.length; i <= _ref1 ? _j < _ref1 : _j > _ref1; j = i <= _ref1 ? ++_j : --_j) {
-            if ((items[j].id != null) && items[j].id === t.id) {
-              t.num += 1;
-              _results1.push(delete items[j]);
-            } else {
-              _results1.push(void 0);
-            }
-          }
-          return _results1;
-        })());
-      } else {
-        _results.push(void 0);
-      }
-    }
-    return _results;
-  };
-
   the1yuan = function(itemList, rate) {
-    var i, item, newList, result, _i, _j, _len, _ref;
+    var i, item, newList, _i, _j, _len, _ref;
     newList = [];
     for (_i = 0, _len = itemList.length; _i < _len; _i++) {
       item = itemList[_i];
@@ -114,7 +88,7 @@ comb(0, [[1], [2]])
       }
       item.num = 1;
     }
-    return result = getBestComb(newList);
+    return getBestComb(newList, rate);
   };
 
   window.the1yuan = the1yuan;

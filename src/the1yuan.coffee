@@ -60,23 +60,12 @@ getBestComb = (items, rate)->
   return bestComb
 
 
-mergeItems = (items)->
-  items = items[..]
-  for i in [0...items.length]
-    if items[i]?
-      t = items[i] = 
-      for j in [i...items.length]
-        if items[j].id? and items[j].id == t.id
-          t.num += 1
-          delete items[j]
-
-
 the1yuan = (itemList, rate)->
   newList = []
   for item in itemList
     newList.push(item) for i in [1..item.num]
     item.num = 1
 
-  result = getBestComb newList
+  getBestComb newList, rate
 
 window.the1yuan = the1yuan
