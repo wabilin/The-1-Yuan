@@ -59,6 +59,23 @@ getBestComb = (items, rate)->
 
   return bestComb
 
+mergeList = (items)->
+  contains = (ary, item)->
+    for i in [0...ary.length]
+      return i if ary[i].name == item.name
+    return false
+
+  newList = []
+  for item in items
+    cloneItem = {num:1, price: item.price, name: item.name}
+    c = contains(newList, cloneItem)
+    if c != false
+      newList[c].num += 1
+    else
+      newList.push(cloneItem)
+
+  return newList
+
 
 the1yuan = (itemList, rate)->
   newList = []
@@ -66,6 +83,7 @@ the1yuan = (itemList, rate)->
     newList.push(item) for i in [1..item.num]
     item.num = 1
 
-  getBestComb newList, rate
+  result = getBestComb(newList, rate)
+  (mergeList(x) for x in result)
 
 window.the1yuan = the1yuan
