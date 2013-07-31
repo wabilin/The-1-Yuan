@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>The 1 Yuan Demo</title>    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="the1yuan.js"></script>
+  </head>
+  <style type="text/css">
+    input{max-width:100px;}
+  </style>
+  <body>
+    <h1>The 1 Yuan Beta Demo</h1>
+    <div>
+      <label for='rate'>Rate</label><input type='number' name='rate' value='0.9'>
+      <table id="the1yuan-input-table">
+        <tr><th>Item Name</th><th>Price</th><th>Number</th></tr>
+        <tr class="item-row">
+          <td><input type="text" name="name"></td>
+          <td><input type="number" name="price"></td>
+          <td><input type="number" name="num"></td>
+        </tr>
+        
+      </table>
+      <a href="#" id="add-item">Add Item</a>
+      <a href="#compute" id="compute-the1yuan">Compute</a>
+    </div>
+    <div id="result-div"></div>
+    <script type="text/javascript">
+      $('#add-item').click(function () {
+        var tr = $('<tr class="item-row"></tr>');
+        var inputNameTd =
+          $('<td></td>').append($('<input>').attr({type: 'text', name:'name'}));
+        var inputPriceTd =
+          $('<td></td>').append($('<input>').attr({type: 'number', name:'price'}));
+        var inputNumTd =
+          $('<td></td>').append($('<input>').attr({type: 'number', name:'num'}));
+        tr.append(inputNameTd).append(inputPriceTd).append(inputNumTd);
+        $('#the1yuan-input-table').append(tr);
+      })
+
+
+      $('#compute-the1yuan').click(function(){
+        var itemList = [];
+        $('#the1yuan-input-table .item-row').each(function(){
+          var item = {};
+          item.name = $(this).find('[name="name"]').val();
+          item.price = Number($(this).find('[name="price"]').val());
+          item.num = Number($(this).find('[name="num"]').val());
+          itemList.push(item);
+        })
+        var result = the1yuan(itemList, Number($('input[name="rate"]').val()));
+        var rDiv = $('#result-div');
+        rDiv.html('');
+        var i,j;
+        console.log(result);
+        for (i = 0 ; i < result.length ; i += 1) {
+          var h = $('<h4></h4>').html(i);
+          var iDiv = $('<div></div>');
+          for (j = 0 ; j < result[i].length ; j += 1) {
+            iDiv.append(result[i][j].name + ' : ' + result[i][j].num + '<br/>');
+          }
+          
+          rDiv.append(h).append(iDiv);
+        }
+      })
+    </script>
+  </body>
+
+</html>
